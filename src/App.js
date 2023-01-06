@@ -1,25 +1,43 @@
-import logo from './logo.svg';
 import './App.css';
-
+import Appbar from './components/Appbar';
+import Grade from './components/Grade';
+import Student from './components/Students';
+import Group from './components/Group';
+import GroupType from './components/GroupType';
+import Professor from './components/Professor';
+import Subject from './components/Subject';
+import SubjectType from './components/SubjectType';
+import Menu from './components/Menu/Menu';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  BrowserRouter
+} from "react-router-dom";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Menu />}>
+
+          </Route>
+
+          <Route path="/grade" element={<Grade />} />
+          <Route path="/group" element={<Group />} />
+          <Route path="/grouptype" element={<GroupType />} />
+          <Route path="/professor" element={<Professor />} />
+          <Route path="/student" element={<Student />} />
+          <Route path="/subject" element={<Subject />} />
+          <Route path="/subjecttype" element={<SubjectType />} />
+        </Routes>
+      </BrowserRouter>
+      <div style={{fontWeight:'bold', fontSize:'100px'}}>WELCOME</div>
     </div>
   );
+
 }
 
 export default App;
