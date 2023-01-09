@@ -77,7 +77,6 @@ export default function Professor() {
                         First Name: {professor.firstName}<br />
                         Last Name: {professor.lastName}<br />
                         EmploymentYear: {professor.employmentYear}<br />
-                        Active: {professor.active}<br />
                         CNP: {professor.cnp}<br />
                     </Paper>
                 ))

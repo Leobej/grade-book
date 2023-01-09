@@ -74,7 +74,6 @@ export default function SubjectType() {
                   
            
                         SubjectTypeId: {subjectType.subjectTypeId}<br />
-                        Active: {subjectType.active}<br />
            
                     </Paper>
                 ))

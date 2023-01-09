@@ -20,7 +20,7 @@ export default function Menu() {
         <div>
             <Toolbar variant="dense" style={{ background: 'grey' }}>
                 <Typography variant="h6" color="inherit" component="div" sx={{ mr: 2 }} style={{}}>
-                    <Link to="/grade">Grade</Link><br />
+                    <Link to="/">Grade</Link><br />
                 </Typography>
 
                 <Typography variant="h6" color="inherit" component="div" sx={{ mr: 2 }}>

@@ -72,7 +72,7 @@ export default function Group() {
                         Id: {group.groupId}<br />
                         GrouTypeId: {group.groupTypeId}<br />
                         Full Name: {group.fullname}<br />
-                        Active: {group.active}<br />
+         
                     </Paper>
                 ))
                 }

@@ -76,7 +76,6 @@ export default function Subject() {
                         SubjectId: {subject.subjectId}<br />
                         SubjectName: {subject.subjectName}<br />
                         SubjectTypeId: {subject.subjectTypeId}<br />
-                        Active: {subject.active}<br />
                         ShortSubjectName: {subject.shortSubjectName}<br />
                     </Paper>
                 ))

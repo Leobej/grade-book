@@ -77,7 +77,6 @@ export default function Student() {
                         First Name: {student.firstName}<br />
                         Last Name: {student.lastName}<br />
                         Email: {student.email}<br />
-                        Active: {student.active}<br />
                         CNP: {student.cnp}<br />
                         groupId: {student.groupId}<br />
 
