@@ -21,12 +21,21 @@ export default function Group() {
     const [groupTypeId, setGroupTypeId] = useState('');
     const [fullname, setFullName] = useState('');
     const [active, setActive] = useState(true)
-
-
-
     const [rows, setRows] = useState(groups);
     const [searched, setSearched] = useState("");
+    const [toDelete, setToDelete] = useState()
 
+    const onClickDelete = (deleted) => {
+        console.log(deleted)
+        fetch("http://localhost:8080/api/groups" + "/" + deleted.toString(), {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            // body: JSON.stringify(groupType)
+
+        }).then(() => {
+            console.log("Group deleted")
+        })
+    }
 
     const requestSearch = (searchedVal) => {
         const filteredRows = groups.filter((row) => {
@@ -94,8 +103,8 @@ export default function Group() {
                         onChange={(e) => setFullName(e.target.value)}
 
                     />
-                    <Box sx={{ minWidth: 120 }}>
-                        <Select
+                    <Box sx={{ width: 120 }}>
+                        <Select sx={{ width: 240 }}
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={groupTypeId}
@@ -130,19 +139,19 @@ export default function Group() {
                                 <TableCell>Food (100g serving)</TableCell>
                                 <TableCell align="right">Calories</TableCell>
                                 <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                                <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                                <TableCell align="right">Protein&nbsp;(g)</TableCell>
+
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {console.log(rows)}
                             {rows.map((group) => (
-                                <TableRow key={group.fullname}>
+                                <TableRow key={group.groupId}>
                                     <TableCell component="th" scope="row">
                                         {group.fullname}
                                     </TableCell>
                                     <TableCell align="right">{group.groupTypeId}</TableCell>
                                     <TableCell align="right">{group.groupId}</TableCell>
+                                    <Button onClick={() => onClickDelete(group.groupId)}>Delete</Button>
 
                                 </TableRow>
                             ))}

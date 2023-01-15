@@ -24,14 +24,14 @@ export default function Student() {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
-    const [active, setActive] = useState()
+    const [active, setActive] = useState(true)
     const [cnp, setCNP] = useState('')
     const [groupId, setGroupId] = useState('')
 
 
     const handleClick = (e) => {
         e.preventDefault()
-        const student = { name, address }
+        const student = { firstName, lastName, cnp, email, active, groupId }
         console.log(student)
         fetch("http://localhost:8080/api/students", {
             method: "POST",
@@ -67,7 +67,7 @@ export default function Student() {
     console.log(rows)
     const requestSearch = (searchedVal) => {
         const filteredRows = students.filter((row) => {
-            return row.subjectName.toLowerCase().includes(searchedVal.toLowerCase());
+            return row.firstName.toLowerCase().includes(searchedVal.toLowerCase());
         });
         setRows(filteredRows);
     };
@@ -83,7 +83,17 @@ export default function Student() {
         // console.log(subjectTypeId)
     };
 
+    const onClickDelete = (deleted) => {
+        console.log(deleted)
+        fetch("http://localhost:8080/api/students" + "/" + deleted.toString(), {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            // body: JSON.stringify(groupType)
 
+        }).then(() => {
+            console.log("New Student added")
+        })
+    }
 
     return (
 
@@ -93,14 +103,38 @@ export default function Student() {
 
                 <form noValidate autoComplete="off">
 
-                    <TextField id="outlined-basic" label="Student Name" variant="outlined" fullWidth
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                    <TextField id="outlined-basic" label="Firstname" variant="outlined" fullWidth
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
                     />
-                    <TextField id="outlined-basic" label="Student Adress" variant="outlined" fullWidth
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
+                    <TextField id="outlined-basic" label="Lastname" variant="outlined" fullWidth
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
                     />
+                    <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <TextField id="outlined-basic" label="CNP" variant="outlined" fullWidth
+                        value={cnp}
+                        onChange={(e) => setCNP(e.target.value)}
+                    />
+
+                    <Box sx={{ width: 240 }}>
+                        <Select sx={{ width: 240 }}
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={groupId}
+                            label="Age"
+                            onChange={handleChange}
+
+                        >
+                            {groups.map(group => (<MenuItem value={group.groupId}>{group.fullname}</MenuItem>)
+                            )
+                            }
+                        </Select>
+
+                    </Box>
                     <Button variant="contained" color="secondary" onClick={handleClick}>
                         Submit
                     </Button>
@@ -119,22 +153,27 @@ export default function Student() {
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>Subjects Ids</TableCell>
-                                <TableCell align="right">Subject name</TableCell>
-                                <TableCell align="right">Subject Description</TableCell>
+                                <TableCell>Student ID</TableCell>
+                                <TableCell align="right">First  name</TableCell>
+                                <TableCell align="right">Last Name</TableCell>
+                                <TableCell align="right">Email</TableCell>
                                 <TableCell align="right">Active</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {
-                                rows.map((subject) => (
-                                    <TableRow key={subject.firstName}>
+                                rows.map((student) => (
+                                    <TableRow key={student.studentId}>
                                         <TableCell component="th" scope="row">
-                                            {subject.firstName}
+                                            {student.studentId}</TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {student.firstName}
                                         </TableCell>
-                                        <TableCell align="right">{subject.lastName}</TableCell>
-                                        <TableCell align="right">{subject.email}</TableCell>
-                                        <TableCell align="right">{subject.active}</TableCell>
+                                        <TableCell align="right">{student.lastName}</TableCell>
+                                        <TableCell align="right">{student.email}</TableCell>
+                                        <TableCell align="right">{student.active}</TableCell>
+                                        <Button onClick={() => onClickDelete(student.studentId)}>Delete</Button>
+
                                     </TableRow>
                                 ))}
                         </TableBody>

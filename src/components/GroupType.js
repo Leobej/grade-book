@@ -16,25 +16,23 @@ export default function GroupType() {
     const [name, setName] = useState('')
     const [address, setAddress] = useState('')
     const [groupTypes, setGroupTypes] = useState([])
-
-
     const [groupTypeId, setGroupTypeId] = useState('');
     const [fullname, setFullName] = useState('');
     const [active, setActive] = useState(true)
-
+    const [toDelete, setToDelete] = useState()
 
     const handleClick = (e) => {
         e.preventDefault()
-        const student = { name, address }
-        console.log(student)
-        // fetch("http://localhost:8080/student/add", {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify(student)
+        const groupType = { fullname }
+        console.log(groupType)
+        fetch("http://localhost:8080/api/grouptypes", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(groupType)
 
-        // }).then(() => {
-        //     console.log("New Student added")
-        // })
+        }).then(() => {
+            console.log("New Student added")
+        })
     }
 
     const [rows, setRows] = useState(groupTypes);
@@ -43,7 +41,7 @@ export default function GroupType() {
 
     const requestSearch = (searchedVal) => {
         const filteredRows = groupTypes.filter((row) => {
-            return row.name.toLowerCase().includes(searchedVal.toLowerCase());
+            return row.fullname.toLowerCase().includes(searchedVal.toLowerCase());
         });
         setRows(filteredRows);
     };
@@ -54,7 +52,17 @@ export default function GroupType() {
         requestSearch(searched);
     };
 
+    const onClickDelete = (deleted) => {
+        console.log(deleted)
+        fetch("http://localhost:8080/api/grouptypes" + "/" + deleted.toString(), {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            // body: JSON.stringify(groupType)
 
+        }).then(() => {
+            console.log("New Student added")
+        })
+    }
 
     useEffect(() => {
         fetch("http://localhost:8080/api/grouptypes")
@@ -75,13 +83,10 @@ export default function GroupType() {
                 <form noValidate autoComplete="off">
 
                     <TextField id="outlined-basic" label="Student Name" variant="outlined" fullWidth
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={fullname}
+                        onChange={(e) => setFullName(e.target.value)}
                     />
-                    <TextField id="outlined-basic" label="Student Adress" variant="outlined" fullWidth
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                    />
+
                     <Button variant="contained" color="secondary" onClick={handleClick}>
                         Submit
                     </Button>
@@ -100,23 +105,19 @@ export default function GroupType() {
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>Food (100g serving)</TableCell>
-                                <TableCell align="right">Calories</TableCell>
-                                <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                                <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                                <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                                <TableCell>Group Type Id</TableCell>
+                                <TableCell align="right">Group Type name</TableCell>
+                                <TableCell align="right">Active</TableCell>
+
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {groupTypes.map((grade) => (
-                                <TableRow key={grade.fullname}>
-                                    <TableCell component="th" scope="row">
-                                        {grade.fullname}
-                                    </TableCell>
-                                    <TableCell align="right">{grade.groupTypeId}</TableCell>
-                                    <TableCell align="right">{grade.professorId}</TableCell>
-                                    <TableCell align="right">{grade.studentId}</TableCell>
-                                    <TableCell align="right">{grade.subjectId}</TableCell>
+                            {rows.map((groupType) => (
+                                <TableRow key={groupType.groupTypeId}>
+                                    <TableCell component="th" scope="row" >{groupType.groupTypeId}</TableCell>
+                                    <TableCell align="right"> {groupType.fullname}</TableCell>
+                                    <TableCell align="right">{groupType.active}</TableCell>
+                                    <Button onClick={()=>onClickDelete(groupType.groupTypeId) }>Delete</Button>
                                 </TableRow>
                             ))}
                         </TableBody>

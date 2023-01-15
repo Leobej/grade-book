@@ -80,6 +80,19 @@ export default function Subject() {
             }
             )
     }, [])
+
+    
+    const onClickDelete = (deleted) => {
+        console.log(deleted)
+        fetch("http://localhost:8080/api/subjects" + "/" + deleted.toString(), {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            // body: JSON.stringify(groupType)
+
+        }).then(() => {
+            console.log("New Student added")
+        })
+    }
     return (
 
         <Container>
@@ -97,11 +110,8 @@ export default function Subject() {
                         onChange={(e) => setSubjectDescription(e.target.value)}
                     />
 
-
-
-
                     <Box sx={{ minWidth: 120 }}>
-                        <Select
+                        <Select sx={{width:240}}
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={subjectTypeId}
@@ -143,13 +153,17 @@ export default function Subject() {
                         <TableBody>
                             {
                                 rows.map((subject) => (
-                                    <TableRow key={subject.subjectName}>
+                                    <TableRow key={subject.subjectId}>
                                         <TableCell component="th" scope="row">
-                                            {subject.subjectName}
+                                            {subject.subjectId}
                                         </TableCell>
+                                        <TableCell align="right">{subject.subjectName}</TableCell>
+                                       
                                         <TableCell align="right">{subject.subjectDescription}</TableCell>
                                         <TableCell align="right">{subject.active}</TableCell>
                                         <TableCell align="right">{subject.subjectTypeId}</TableCell>
+                                        <Button onClick={() => onClickDelete(subject.subjectId)}>Delete</Button>
+
                                     </TableRow>
                                 ))}
                         </TableBody>

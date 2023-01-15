@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
+import dayjs from 'dayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import dayjs from 'dayjs';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
+
 import MenuItem from '@mui/material/MenuItem';
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -32,11 +34,21 @@ export default function Grade() {
     const [studentId, setStudentId] = useState()
     const [subjectId, setSubjectId] = useState()
     const [active, setActive] = useState(true)
-
     const [rows, setRows] = useState([]);
-
     const [searched, setSearched] = useState("");
+    const [toDelete, setToDelete] = useState()
 
+    const onClickDelete = (deleted) => {
+        console.log(deleted)
+        fetch("http://localhost:8080/api/grades" + "/" + deleted.toString(), {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            // body: JSON.stringify(groupType)
+
+        }).then(() => {
+            console.log("New Student added")
+        })
+    }
     const requestSearch = (searchedVal) => {
         const filteredRows = grades.filter((row) => {
             return row.examDate.toLowerCase().includes(searchedVal.toLowerCase());
@@ -50,7 +62,7 @@ export default function Grade() {
         setSearched("");
         requestSearch(searched);
     };
-    
+
 
 
     const handleClick = (e) => {
@@ -125,7 +137,7 @@ export default function Grade() {
                             onChange={(e) => setStudentId(e.target.value)}
                         />
 
-                        <Select
+                        <Select sx={{ width: 240 }}
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={professorId}
@@ -154,8 +166,9 @@ export default function Grade() {
                         <Table aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Grade)</TableCell>
+                                    <TableCell>Grade</TableCell>
                                     <TableCell align="right">gradeId</TableCell>
+                                    <TableCell align="right">examDate</TableCell>
                                     <TableCell align="right">professordId)</TableCell>
                                     <TableCell align="right">studentId</TableCell>
                                     <TableCell align="right">subjectId</TableCell>
@@ -170,11 +183,13 @@ export default function Grade() {
                                             <TableCell component="th" scope="row">
                                                 {grade.grade}
                                             </TableCell>
-                                            <TableCell align="right">{grade.examDate} </TableCell>
                                             <TableCell align="right">{grade.gradeId}</TableCell>
+                                            <TableCell align="right">{grade.examDate} </TableCell>
                                             <TableCell align="right">{grade.professorId}</TableCell>
                                             <TableCell align="right">{grade.studentId}</TableCell>
                                             <TableCell align="right">{grade.subjectId}</TableCell>
+                                            <Button onClick={()=>onClickDelete(grade.gradeId) }>Delete</Button>
+                       
                                         </TableRow>
                                     ))}
                             </TableBody>

@@ -70,6 +70,18 @@ export default function SubjectType() {
             }
             )
     }, [])
+
+    const onClickDelete = (deleted) => {
+        console.log(deleted)
+        fetch("http://localhost:8080/api/subjecttypes" + "/" + deleted.toString(), {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            // body: JSON.stringify(groupType)
+
+        }).then(() => {
+            console.log("New Student added")
+        })
+    }
     return (
 
         <Container>
@@ -106,20 +118,21 @@ export default function SubjectType() {
                             <TableRow>
                                 <TableCell>Subjects Type Ids</TableCell>
                                 <TableCell align="center">Subject Type active</TableCell>
-                             
-             
+
+
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {
                                 rows.map((subjectType) => (
-                                    <TableRow key={subjectType.subjectName}>
+                                    <TableRow key={subjectType.subjectTypeId}>
                                         <TableCell component="th" scope="row">
                                             {subjectType.subjectTypeId}
                                         </TableCell>
-                               
+
                                         <TableCell align="right">{subjectType.active}</TableCell>
-                              
+                                        <Button onClick={() => onClickDelete(subjectType.subjectTypeId)}>Delete</Button>
+
                                     </TableRow>
                                 ))}
                         </TableBody>
