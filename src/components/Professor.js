@@ -42,6 +42,7 @@ export default function Professor() {
             .then(res => res.json())
             .then((result) => {
                 setProfessors(result);
+                // setRows(result)
             }
             )
     }, [])
@@ -49,7 +50,7 @@ export default function Professor() {
 
         <Container>
             <Paper elevation={3} style={paperStyle}>
-                <h1 style={{ color: "blue" }}><u>Add Student</u></h1>
+                <h1 style={{ color: "blue" }}><u>Add Professor</u></h1>
 
                 <form noValidate autoComplete="off">
 
