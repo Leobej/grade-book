@@ -117,7 +117,7 @@ export default function SubjectType() {
                         <TableHead>
                             <TableRow>
                                 <TableCell>Subjects Type Ids</TableCell>
-                                <TableCell align="center">Subject Type active</TableCell>
+                                {/* <TableCell align="center">Subject Type active</TableCell> */}
 
 
                             </TableRow>
@@ -130,7 +130,7 @@ export default function SubjectType() {
                                             {subjectType.subjectTypeId}
                                         </TableCell>
 
-                                        <TableCell align="right">{subjectType.active}</TableCell>
+                                        {/* <TableCell align="right">{subjectType.active.toString()}</TableCell> */}
                                         <Button onClick={() => onClickDelete(subjectType.subjectTypeId)}>Delete</Button>
 
                                     </TableRow>

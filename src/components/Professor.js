@@ -17,8 +17,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 
 export default function Professor() {
     const paperStyle = { padding: '50px 20px', width: 600, margin: "20px auto" }
-    const [name, setName] = useState('')
-    const [address, setAddress] = useState('')
+
     const [professors, setProfessors] = useState([])
 
     const [professorId, setProfessorId] = useState('')
@@ -42,6 +41,11 @@ export default function Professor() {
         }).then(() => {
             console.log("New Student added")
         })
+
+        setFirstName("")
+        setLastName("")
+        setEmploymentYear("")
+        setCNP("")
     }
 
     useEffect(() => {
@@ -136,7 +140,7 @@ export default function Professor() {
                                     <TableCell align="right">First  name</TableCell>
                                     <TableCell align="right">Last Name</TableCell>
                                     <TableCell align="right">Employment Year</TableCell>
-                                    <TableCell align="right">Active</TableCell>
+                                    {/* <TableCell align="right">Active</TableCell> */}
                                     <TableCell align="right">CNP</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -148,8 +152,8 @@ export default function Professor() {
                                             <TableCell align="right">{professor.firstName}</TableCell>
                                             <TableCell align="right">{professor.lastName}</TableCell>
                                             <TableCell align="right">{professor.employmentYear}</TableCell>
-                                            <TableCell align="right">{professor.active}</TableCell>
-                                               <TableCell align="right">{professor.cnp}</TableCell>
+                                            {/* <TableCell align="right">{professor.active.toString()}</TableCell> */}
+                                            <TableCell align="right">{professor.cnp}</TableCell>
                                             <Button onClick={() => onClickDelete(professor.professorId)}>Delete</Button>
 
                                         </TableRow>

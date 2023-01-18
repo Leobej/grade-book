@@ -8,8 +8,8 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-
-
+import { Box } from '@mui/system';
+import { FormControl, InputLabel } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -27,9 +27,15 @@ export default function Grade() {
 
     const [grades, setGrades] = useState([])
     const [professors, setProfessors] = useState([])
+    const [students, setStudents] = useState([])
+    const [subjects, setSubjects] = useState([])
+
+    const current = new Date();
+    const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
+  
 
     const [grade, setGrade] = useState('')
-    const [examDate, setExamDate] = React.useState(dayjs('2014-08-18T21:11:54'));
+    const [examDate, setExamDate] = React.useState(dayjs("2022-01-17"));
     const [professorId, setprofessorId] = useState()
     const [studentId, setStudentId] = useState()
     const [subjectId, setSubjectId] = useState()
@@ -78,6 +84,9 @@ export default function Grade() {
         }).then(() => {
             console.log("New Grade added")
         })
+
+        setGrade('');
+    
     }
 
     const handleDatePicker = (newValue) => {
@@ -104,6 +113,23 @@ export default function Grade() {
             }
 
             )
+
+        fetch("http://localhost:8080/api/students")
+            .then(res => res.json())
+            .then((result) => {
+                setStudents(result);
+            }
+
+            )
+
+        fetch("http://localhost:8080/api/subjects")
+            .then(res => res.json())
+            .then((result) => {
+                setSubjects(result);
+            }
+
+            )
+
     }, [])
 
 
@@ -128,26 +154,54 @@ export default function Grade() {
                             onChange={handleDatePicker}
                             renderInput={(params) => <TextField {...params} />}
                         />
-                        <TextField id="outlined-basic" label="Professor Id" variant="outlined" fullWidth
-                            value={professorId}
-                            onChange={(e) => setprofessorId(e.target.value)}
-                        />
-                        <TextField id="outlined-basic" label="Student Id" variant="outlined" fullWidth
-                            value={studentId}
-                            onChange={(e) => setStudentId(e.target.value)}
-                        />
-
-                        <Select sx={{ width: 240 }}
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={professorId}
-                            label="Age"
-                            onChange={handleChange}
-                        >
-                            {professors.filter((v, i, a) => a.indexOf(v) === i).map(professor => (<MenuItem value={professor.professorId}>{professor.lastName + " " + professor.firstName}</MenuItem>)
-                            )
-                            }
-                        </Select>
+                        <Box>
+                            <FormControl>
+                                <InputLabel >Student</InputLabel>
+                                <Select sx={{ width: 240 }}
+                                    labelId="Student"
+                                    id="demo-simple-select"
+                                    value={studentId}
+                                    label="Age"
+                                    onChange={handleChange}
+                                >
+                                    {students.filter((v, i, a) => a.indexOf(v) === i).map(student => (<MenuItem value={student.studentId}>{student.lastName + " " + student.firstName}</MenuItem>)
+                                    )
+                                    }
+                                </Select>
+                            </FormControl>
+                        </Box>
+                        <Box>
+                            <FormControl>
+                                <InputLabel >Professor</InputLabel>
+                                <Select sx={{ width: 240 }}
+                                    labelId="Professor"
+                                    id="demo-simple-select"
+                                    value={professorId}
+                                    label="Age"
+                                    onChange={handleChange}
+                                >
+                                    {professors.filter((v, i, a) => a.indexOf(v) === i).map(professor => (<MenuItem value={professor.professorId}>{professor.lastName + " " + professor.firstName}</MenuItem>)
+                                    )
+                                    }
+                                </Select>
+                            </FormControl>
+                        </Box>
+                        <Box>
+                            <FormControl>
+                                <InputLabel >Subject</InputLabel>
+                                <Select sx={{ width: 240 }}
+                                    labelId="Professor"
+                                    id="demo-simple-select"
+                                    value={subjectId}
+                                    label="Age"
+                                    onChange={handleChange}
+                                >
+                                    {subjects.filter((v, i, a) => a.indexOf(v) === i).map(subject => (<MenuItem value={subject.professorId}>{subject.subjectName}</MenuItem>)
+                                    )
+                                    }
+                                </Select>
+                            </FormControl>
+                        </Box>
 
                         <Button variant="contained" color="secondary" onClick={handleClick}>
                             Submit
@@ -166,30 +220,31 @@ export default function Grade() {
                         <Table aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Grade</TableCell>
-                                    <TableCell align="right">gradeId</TableCell>
-                                    <TableCell align="right">examDate</TableCell>
-                                    <TableCell align="right">professordId)</TableCell>
-                                    <TableCell align="right">studentId</TableCell>
-                                    <TableCell align="right">subjectId</TableCell>
-                                    <TableCell align="right">examDate</TableCell>
+                                    <TableCell>Grade Id</TableCell>
+                                    <TableCell align="right"> Grade</TableCell>
+                                    <TableCell align="right">Exam Date</TableCell>
+                                    <TableCell align="right">Professor Id)</TableCell>
+                                    <TableCell align="right">Student Id</TableCell>
+                                    <TableCell align="right">Subject Id</TableCell>
+                                    {/* <TableCell align="right">Active</TableCell> */}
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {
-                                    rows.map((grade) => (
+                                    rows.filter(grade => grade.active.toString() === "true").map((grade) => (
 
                                         <TableRow key={grade.gradeId}>
                                             <TableCell component="th" scope="row">
-                                                {grade.grade}
+                                                {grade.gradeId}
                                             </TableCell>
-                                            <TableCell align="right">{grade.gradeId}</TableCell>
+                                            <TableCell align="right">  {grade.grade}</TableCell>
                                             <TableCell align="right">{grade.examDate} </TableCell>
                                             <TableCell align="right">{grade.professorId}</TableCell>
                                             <TableCell align="right">{grade.studentId}</TableCell>
                                             <TableCell align="right">{grade.subjectId}</TableCell>
-                                            <Button onClick={()=>onClickDelete(grade.gradeId) }>Delete</Button>
-                       
+                                            {/* <TableCell align="right">{grade.active.toString()}</TableCell> */}
+                                            <Button onClick={() => onClickDelete(grade.gradeId)}>Delete</Button>
+
                                         </TableRow>
                                     ))}
                             </TableBody>

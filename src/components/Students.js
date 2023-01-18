@@ -9,6 +9,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import { TableRow, Table, TableCell, TableContainer, TableHead, TableBody } from '@mui/material';
+import { FormControl, InputLabel } from '@mui/material';
 import SearchBar from './Search/SearchBar';
 
 
@@ -41,6 +42,11 @@ export default function Student() {
         }).then(() => {
             console.log("New Student added")
         })
+        setLastName("")
+        setFirstName("")
+        setEmail("")
+        setCNP("")
+
     }
 
 
@@ -121,6 +127,8 @@ export default function Student() {
                     />
 
                     <Box sx={{ width: 240 }}>
+                        <FormControl>
+                            <InputLabel>Group Name</InputLabel>
                         <Select sx={{ width: 240 }}
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
@@ -132,8 +140,9 @@ export default function Student() {
                             {groups.map(group => (<MenuItem value={group.groupId}>{group.fullname}</MenuItem>)
                             )
                             }
-                        </Select>
 
+                        </Select>
+                        </FormControl>
                     </Box>
                     <Button variant="contained" color="secondary" onClick={handleClick}>
                         Submit
@@ -157,7 +166,7 @@ export default function Student() {
                                 <TableCell align="right">First  name</TableCell>
                                 <TableCell align="right">Last Name</TableCell>
                                 <TableCell align="right">Email</TableCell>
-                                <TableCell align="right">Active</TableCell>
+                                {/* <TableCell align="right">Active</TableCell> */}
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -171,7 +180,7 @@ export default function Student() {
                                         </TableCell>
                                         <TableCell align="right">{student.lastName}</TableCell>
                                         <TableCell align="right">{student.email}</TableCell>
-                                        <TableCell align="right">{student.active}</TableCell>
+                                        {/* <TableCell align="right">{student.active.toString()}</TableCell> */}
                                         <Button onClick={() => onClickDelete(student.studentId)}>Delete</Button>
 
                                     </TableRow>

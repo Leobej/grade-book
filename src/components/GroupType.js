@@ -82,7 +82,7 @@ export default function GroupType() {
 
                 <form noValidate autoComplete="off">
 
-                    <TextField id="outlined-basic" label="Student Name" variant="outlined" fullWidth
+                    <TextField id="outlined-basic" label="Group Type Name" variant="outlined" fullWidth
                         value={fullname}
                         onChange={(e) => setFullName(e.target.value)}
                     />
@@ -107,7 +107,7 @@ export default function GroupType() {
                             <TableRow>
                                 <TableCell>Group Type Id</TableCell>
                                 <TableCell align="right">Group Type name</TableCell>
-                                <TableCell align="right">Active</TableCell>
+                                {/* <TableCell align="right">Active</TableCell> */}
 
                             </TableRow>
                         </TableHead>
@@ -116,7 +116,7 @@ export default function GroupType() {
                                 <TableRow key={groupType.groupTypeId}>
                                     <TableCell component="th" scope="row" >{groupType.groupTypeId}</TableCell>
                                     <TableCell align="right"> {groupType.fullname}</TableCell>
-                                    <TableCell align="right">{groupType.active}</TableCell>
+                                    {/* <TableCell align="right">{groupType.active.toString()}</TableCell> */}
                                     <Button onClick={()=>onClickDelete(groupType.groupTypeId) }>Delete</Button>
                                 </TableRow>
                             ))}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { FormControl, InputLabel } from '@mui/material';
 
 import SearchBar from './Search/SearchBar';
 import TextField from '@mui/material/TextField';
@@ -104,18 +105,21 @@ export default function Group() {
 
                     />
                     <Box sx={{ width: 120 }}>
-                        <Select sx={{ width: 240 }}
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={groupTypeId}
-                            label="Age"
-                            onChange={handleChange}
+                        <FormControl>
+<InputLabel> Group Type</InputLabel>
+                            <Select sx={{ width: 240 }}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={groupTypeId}
+                                label="Age"
+                                onChange={handleChange}
 
-                        >
-                            {groupTypes.map(groupType => (<MenuItem value={groupType.groupTypeId}>{groupType.fullname}</MenuItem>)
-                            )
-                            }
-                        </Select>
+                            >
+                                {groupTypes.map(groupType => (<MenuItem value={groupType.groupTypeId}>{groupType.fullname}</MenuItem>)
+                                )
+                                }
+                            </Select>
+                        </FormControl>
 
                     </Box>
                     <Button variant="contained" color="secondary" onClick={handleClick}>
@@ -136,9 +140,9 @@ export default function Group() {
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>Food (100g serving)</TableCell>
-                                <TableCell align="right">Calories</TableCell>
-                                <TableCell align="right">Fat&nbsp;(g)</TableCell>
+                                <TableCell align="right">Group Id</TableCell>
+                                <TableCell>Group fullname</TableCell>
+                                {/* <TableCell align="right">Group Active</TableCell> */}
 
                             </TableRow>
                         </TableHead>
@@ -147,10 +151,12 @@ export default function Group() {
                             {rows.map((group) => (
                                 <TableRow key={group.groupId}>
                                     <TableCell component="th" scope="row">
-                                        {group.fullname}
+                                        {group.groupId}
                                     </TableCell>
+                                    <TableCell align="right">{group.fullname}</TableCell>
                                     <TableCell align="right">{group.groupTypeId}</TableCell>
-                                    <TableCell align="right">{group.groupId}</TableCell>
+
+                                    {/* <TableCell >{group.active.toString()}</TableCell> */}
                                     <Button onClick={() => onClickDelete(group.groupId)}>Delete</Button>
 
                                 </TableRow>
